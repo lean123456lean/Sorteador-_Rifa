@@ -1,0 +1,187 @@
+import { useState } from 'react';
+import { Shuffle, RotateCcw } from 'lucide-react';
+import fundo from './Img/fundo.png';
+import premio from './Img/premio.jpeg';
+
+function App() {
+  const [drawnNumber, setDrawnNumber] = useState<number | null>(null);
+  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const valorPorNumero = 10; // valor de cada número da rifa
+  const totalNumbers = 35;
+  const numbers = Array.from({ length: totalNumbers }, (_, i) => i + 1);
+
+  const drawNumber = () => {
+    const availableNumbers = numbers.filter(n => !drawnNumbers.includes(n));
+
+    if (availableNumbers.length === 0) {
+      alert('Todos os números já foram sorteados!');
+      return;
+    }
+
+    setIsAnimating(true);
+
+    let counter = 0;
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+      setDrawnNumber(availableNumbers[randomIndex]);
+      console.log('Número sorteado:', availableNumbers[randomIndex]);
+      counter++;
+
+      if (counter > 20) {
+        clearInterval(interval);
+        const finalIndex = Math.floor(Math.random() * availableNumbers.length);
+        const finalNumber = availableNumbers[finalIndex];
+        setDrawnNumber(finalNumber);
+        setDrawnNumbers(prev => [...prev, finalNumber]);
+        setIsAnimating(false);
+      }
+    }, 100);
+  };
+
+  const reset = () => {
+    setDrawnNumber(null);
+    setDrawnNumbers([]);
+    setIsAnimating(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            {/* <Ticket className="w-10 h-10 text-blue-600" /> */}
+            <img
+              src={fundo}
+              alt="Vanusa e Leandro"
+              className="
+                    w-74
+                    object-contain
+                    rounded-2xl
+                    shadow-2xl
+                    border border-white/40
+                    backdrop-blur-sm
+                    hover:scale-105
+                    transition-all duration-300
+              "
+            />
+          </div>
+          <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6">
+
+  {/* 🖼️ Imagem do prêmio */}
+  <img
+    src={premio}
+    alt="Prêmio da rifa"
+    className="
+      w-48 md:w-64
+      object-contain
+      rounded-xl
+      shadow-lg
+      border
+    "
+  />
+
+  {/* 📝 Descrição */}
+  <div className="text-center md:text-left">
+    <h2 className="text-2xl font-bold text-gray-800 mb-2">
+      🎁 Prêmio
+    </h2>
+
+    <p className="text-gray-600 mb-2">
+      Jogo de 
+    </p>
+
+    <p className="text-sm text-gray-500">
+      Som potente, resistente à água, bateria de longa duração.
+      Ideal para levar para qualquer lugar.
+    </p>
+  </div>
+
+</div>
+          <div className="flex items-center justify-center gap-3 mb-3 p-5">
+            <h1 className="text-4xl font-bold text-gray-800 padding">Sorteio Rifa</h1>
+            <p className="text-gray-600 text-lg">Números de 1 a 35</p>
+          </div>
+        </div>
+
+        {drawnNumber && (
+          <div className="mb-8 text-center">
+            <div className="inline-block bg-white rounded-2xl shadow-2xl p-8 border-4 border-blue-500 transform transition-transform hover:scale-105">
+              <p className="text-gray-600 text-sm uppercase tracking-wide mb-2">Número Sorteado</p>
+              <div className={`text-8xl font-bold text-blue-600 ${isAnimating ? 'animate-pulse' : ''}`}>
+                {drawnNumber}
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap-4 justify-center mb-8">
+          <button
+            onClick={drawNumber}
+            disabled={isAnimating || drawnNumbers.length === totalNumbers}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold px-8 py-4 rounded-xl shadow-lg transition-all transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed"
+          >
+            <Shuffle className="w-5 h-5" />
+            {isAnimating ? 'Sorteando...' : 'Sortear Número'}
+          </button>
+
+          <button
+            onClick={reset}
+            className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg transition-all transform hover:scale-105"
+          >
+            <RotateCcw className="w-5 h-5" />
+            Reiniciar
+          </button>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            Números ({drawnNumbers.length} sorteados de {totalNumbers})
+          </h2>
+          <div className="grid grid-cols-7 gap-3">
+            {numbers.map(num => {
+              const isDrawn = drawnNumbers.includes(num);
+              const isCurrent = num === drawnNumber;
+
+              return (
+                <div
+                  key={num}
+                  className={`
+                    aspect-square flex items-center justify-center rounded-lg font-bold text-lg
+                    transition-all duration-300 transform
+                    ${isDrawn
+                      ? 'bg-blue-600 text-white shadow-lg scale-95'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }
+                    ${isCurrent && !isDrawn ? 'ring-4 ring-blue-500 ring-offset-2' : ''}
+                  `}
+                >
+                  {num}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {drawnNumbers.length > 0 && (
+          <div className="bg-white rounded-2xl shadow-xl p-6">
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">Histórico de Sorteios</h2>
+            <div className="flex flex-wrap gap-2">
+              {drawnNumbers.map((num, index) => (
+                <div
+                  key={index}
+                  className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg font-semibold"
+                >
+                  {num}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;
