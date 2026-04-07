@@ -14,6 +14,49 @@ function App() {
   const custoCartorio = 320;
   const lucro = totalArrecadado - custoCartorio;
 
+  const compradores = [
+    { numero: 1, nome: "João" },
+    { numero: 2, nome: "Maria" },
+    { numero: 3, nome: "Carlos" },
+    { numero: 4, nome: "Ana" },
+    { numero: 5, nome: "Pedro" },
+    { numero: 6, nome: "Juliana" },
+    { numero: 7, nome: "Lucas" },
+    { numero: 8, nome: "Fernanda" },
+    { numero: 9, nome: "Rafael" },
+    { numero: 10, nome: "Camila" },
+    { numero: 11, nome: "João" },
+    { numero: 12, nome: "Maria" },
+    { numero: 13, nome: "Carlos" },
+    { numero: 14, nome: "Ana" },
+    { numero: 15, nome: "Pedro" },
+    { numero: 16, nome: "Juliana" },
+    { numero: 17, nome: "Lucas" },
+    { numero: 18, nome: "Fernanda" },
+    { numero: 19, nome: "Rafael" },
+    { numero: 20, nome: "Camila" },
+    { numero: 21, nome: "João" },
+    { numero: 22, nome: "Maria" },
+    { numero: 23, nome: "Carlos" },
+    { numero: 24, nome: "Ana" },
+    { numero: 25, nome: "Pedro" },
+    { numero: 26, nome: "Juliana" },
+    { numero: 27, nome: "Lucas" },
+    { numero: 28, nome: "Fernanda" },
+    { numero: 29, nome: "Rafael" },
+    { numero: 30, nome: "Camila" },
+    { numero: 31, nome: "João" },
+    { numero: 32, nome: "Maria" },
+    { numero: 33, nome: "Carlos" },
+    { numero: 34, nome: "Ana" },
+    { numero: 35, nome: "Pedro" },
+  ];
+
+  const getComprador = (numero: number) => {
+    const pessoa = compradores.find(c => c.numero === numero);
+    return pessoa ? pessoa.nome : "Dísponivel";
+  }
+
   const numbers = Array.from({ length: totalNumbers }, (_, i) => i + 1);
 
   const drawNumber = () => {
@@ -55,12 +98,11 @@ function App() {
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-3">
-            {/* <Ticket className="w-10 h-10 text-blue-600" /> */}
             <img
               src={fundo}
               alt="Vanusa e Leandro"
               className="
-                    w-74
+                    w-70 md:w-96
                     object-contain
                     rounded-2xl
                     shadow-2xl
@@ -73,7 +115,6 @@ function App() {
           </div>
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6">
 
-            {/* 🖼️ Imagem do prêmio */}
             <img
               src={premio}
               alt="Prêmio da rifa"
@@ -86,7 +127,6 @@ function App() {
             "
             />
 
-            {/*  Descrição */}
             <div className="text-center md:text-left">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 🎁 Prêmio
@@ -97,12 +137,11 @@ function App() {
               </p>
 
               <p className="text-sm text-gray-500">
-                Conjunto perfeito com qualidade e estilo para os amantes de jogos. 
-                Composto por um controle sem fio, um headset gamer com microfone e um mouse gamer, este kit é ideal para proporcionar uma experiência de jogo imersiva e confortável. O controle sem fio oferece liberdade de movimento, o headset proporciona áudio nítido e comunicação clara, enquanto o mouse gamer garante precisão e agilidade durante as partidas. Seja para jogos de ação, estratégia ou multiplayer, 
+                Conjunto perfeito com qualidade e estilo para os amantes de jogos.
+                Composto por um controle sem fio, um headset gamer com microfone e um mouse gamer, este kit é ideal para proporcionar uma experiência de jogo imersiva e confortável. O controle sem fio oferece liberdade de movimento, o headset proporciona áudio nítido e comunicação clara, enquanto o mouse gamer garante precisão e agilidade durante as partidas. Seja para jogos de ação, estratégia ou multiplayer,
                 este conjunto é a escolha certa para elevar seu desempenho e diversão nos jogos.
               </p>
             </div>
-
 
           </div>
           <div className="flex items-center justify-center gap-3 mb-3 p-5">
@@ -193,7 +232,12 @@ function App() {
                     ${isCurrent && !isDrawn ? 'ring-4 ring-blue-500 ring-offset-2' : ''}
                   `}
                 >
-                  {num}
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <span className="font-bold">{num}</span>
+                    <span className="text-[10px] mt-1">
+                      {getComprador(num)}
+                    </span>
+                  </div>
                 </div>
               );
             })}
@@ -209,7 +253,7 @@ function App() {
                   key={index}
                   className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg font-semibold"
                 >
-                  {num}
+                  {num} - {getComprador(num)}
                 </div>
               ))}
             </div>
