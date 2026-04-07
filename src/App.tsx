@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { Shuffle, RotateCcw, Trophy, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import fundo from './Img/fundo.png';
-import premio from './Img/premio.jpeg';
+import fundo from './assets/fundo.png';
+import premio from './assets/premio.jpeg';
 
 function App() {
   const [drawnNumber, setDrawnNumber] = useState<number | null>(null);
