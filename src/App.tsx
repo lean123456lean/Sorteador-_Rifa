@@ -8,8 +8,12 @@ function App() {
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const valorPorNumero = 10; // valor de cada número da rifa
   const totalNumbers = 35;
+  const valorPorNumero = 10;
+  const totalArrecadado = totalNumbers * valorPorNumero;
+  const custoCartorio = 320;
+  const lucro = totalArrecadado - custoCartorio;
+
   const numbers = Array.from({ length: totalNumbers }, (_, i) => i + 1);
 
   const drawNumber = () => {
@@ -69,39 +73,71 @@ function App() {
           </div>
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6">
 
-  {/* 🖼️ Imagem do prêmio */}
-  <img
-    src={premio}
-    alt="Prêmio da rifa"
-    className="
-      w-48 md:w-64
-      object-contain
-      rounded-xl
-      shadow-lg
-      border
-    "
-  />
+            {/* 🖼️ Imagem do prêmio */}
+            <img
+              src={premio}
+              alt="Prêmio da rifa"
+              className="
+                  w-48 md:w-64
+                  object-contain
+                  rounded-xl
+                  shadow-lg
+                  border
+            "
+            />
 
-  {/* 📝 Descrição */}
-  <div className="text-center md:text-left">
-    <h2 className="text-2xl font-bold text-gray-800 mb-2">
-      🎁 Prêmio
-    </h2>
+            {/*  Descrição */}
+            <div className="text-center md:text-left">
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                🎁 Prêmio
+              </h2>
 
-    <p className="text-gray-600 mb-2">
-      Jogo de 
-    </p>
+              <p className="text-gray-600 mb-2">
+                Jogo de colher para cozinha lindo na cor vermelha, perfeito para adicionar um toque de estilo e funcionalidade à sua cozinha.
+              </p>
 
-    <p className="text-sm text-gray-500">
-      Som potente, resistente à água, bateria de longa duração.
-      Ideal para levar para qualquer lugar.
-    </p>
-  </div>
+              <p className="text-sm text-gray-500">
+                Conjunto perfeito com qualidade e estilo para os amantes de jogos. 
+                Composto por um controle sem fio, um headset gamer com microfone e um mouse gamer, este kit é ideal para proporcionar uma experiência de jogo imersiva e confortável. O controle sem fio oferece liberdade de movimento, o headset proporciona áudio nítido e comunicação clara, enquanto o mouse gamer garante precisão e agilidade durante as partidas. Seja para jogos de ação, estratégia ou multiplayer, 
+                este conjunto é a escolha certa para elevar seu desempenho e diversão nos jogos.
+              </p>
+            </div>
 
-</div>
+
+          </div>
           <div className="flex items-center justify-center gap-3 mb-3 p-5">
             <h1 className="text-4xl font-bold text-gray-800 padding">Sorteio Rifa</h1>
             <p className="text-gray-600 text-lg">Números de 1 a 35</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            Resumo Financeiro
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            <div className="bg-green-100 text-green-700 p-4 rounded-xl text-center">
+              <p className="text-sm">Total Arrecadado</p>
+              <p className="text-2xl font-bold">
+                R$ {totalArrecadado}
+              </p>
+            </div>
+
+            <div className="bg-red-100 text-red-700 p-4 rounded-xl text-center">
+              <p className="text-sm">Custo Cartório</p>
+              <p className="text-2xl font-bold">
+                R$ {custoCartorio}
+              </p>
+            </div>
+
+            <div className="bg-blue-100 text-blue-700 p-4 rounded-xl text-center">
+              <p className="text-sm">Resultado</p>
+              <p className="text-2xl font-bold">
+                R$ {lucro}
+              </p>
+            </div>
+
           </div>
         </div>
 
