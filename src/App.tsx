@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Shuffle, RotateCcw } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Shuffle, RotateCcw, Trophy, X } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import fundo from './Img/fundo.png';
 import premio from './Img/premio.jpeg';
 
@@ -7,6 +8,51 @@ function App() {
   const [drawnNumber, setDrawnNumber] = useState<number | null>(null);
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalNumber, setModalNumber] = useState<number | null>(null);
+
+  const playVictorySound = useCallback(() => {
+    const ctx = new AudioContext();
+
+    const notes = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50];
+    const durations = [0.12, 0.12, 0.12, 0.3, 0.12, 0.35];
+
+    let startTime = ctx.currentTime + 0.05;
+
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, startTime);
+
+      gain.gain.setValueAtTime(0.5, startTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + durations[i]);
+
+      osc.start(startTime);
+      osc.stop(startTime + durations[i]);
+
+      startTime += durations[i] + 0.04;
+    });
+  }, []);
+
+  const launchConfetti = useCallback(() => {
+    const count = 250;
+    const defaults = { origin: { y: 0.6 } };
+
+    function fire(particleRatio: number, opts: confetti.Options) {
+      confetti({ ...defaults, ...opts, particleCount: Math.floor(count * particleRatio) });
+    }
+
+    fire(0.25, { spread: 26, startVelocity: 55 });
+    fire(0.2, { spread: 60 });
+    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+    fire(0.1, { spread: 120, startVelocity: 45 });
+  }, []);
 
   const totalNumbers = 35;
   const valorPorNumero = 10;
@@ -83,6 +129,10 @@ function App() {
         setDrawnNumber(finalNumber);
         setDrawnNumbers(prev => [...prev, finalNumber]);
         setIsAnimating(false);
+        setModalNumber(finalNumber);
+        setShowModal(true);
+        playVictorySound();
+        launchConfetti();
       }
     }, 100);
   };
@@ -91,10 +141,48 @@ function App() {
     setDrawnNumber(null);
     setDrawnNumbers([]);
     setIsAnimating(false);
+    setShowModal(false);
+    setModalNumber(null);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+
+      {/* Modal de vitória */}
+      {showModal && modalNumber !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="relative bg-white rounded-3xl shadow-2xl p-10 max-w-sm w-full mx-4 text-center animate-bounce-in">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Fechar"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <div className="flex justify-center mb-4">
+              <Trophy className="w-16 h-16 text-yellow-400 drop-shadow-lg" />
+            </div>
+
+            <h2 className="text-2xl font-bold text-gray-800 mb-1">🎉 Temos um vencedor!</h2>
+
+            <div className="my-6">
+              <div className="text-8xl font-extrabold text-blue-600 leading-none mb-3">
+                {modalNumber}
+              </div>
+              <p className="text-gray-500 text-sm uppercase tracking-widest mb-1">Ganhador</p>
+              <p className="text-3xl font-bold text-gray-800">{getComprador(modalNumber)}</p>
+            </div>
+
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all transform hover:scale-105"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-3">
