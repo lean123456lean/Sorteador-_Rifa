@@ -113,6 +113,52 @@ project/
 
 ---
 
+## Criamos um test simples usando javascrit puro
+
+na pasta do projeto pode rodar direto usando
+## node simular.js
+
+PS C:\Sorteio_Rifa\project> node simular.js
+Resultado após 10.000 sorteios:
+
+Irmã Lurdes: 4882 vitórias (48.82%)
+Ana Paula: 1150 vitórias (11.50%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Irmã Ana Paula: 592 vitórias (5.92%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Ana Lucia: 795 vitórias (7.95%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Ana Lucia: 795 vitórias (7.95%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Irmã Ana Paula: 592 vitórias (5.92%)
+Irmã Gracinha: 586 vitórias (5.86%)
+Fernanda: 554 vitórias (5.54%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Irmã Ana Paula: 592 vitórias (5.92%)
+Irmã Gracinha: 586 vitórias (5.86%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Irmã Ana Paula: 592 vitórias (5.92%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Ana Lucia: 795 vitórias (7.95%)
+Ana Lucia: 795 vitórias (7.95%)
+Karine: 602 vitórias (6.02%)
+Irmã Ana Paula: 592 vitórias (5.92%)
+Irmã Gracinha: 586 vitórias (5.86%)
+Fernanda: 554 vitórias (5.54%)
+Hariel: 287 vitórias (2.87%)
+Pedro: 284 vitórias (2.84%)
+Paula Kassimiro: 268 vitórias (2.68%)
+PS C:
+
 ##  Dedicatória
 
 Este projeto é dedicado à **Vanusa**, minha esposa, pela ideia criativa e pelo amor que nos une. Que esse casamento seja o começo de uma história linda.
